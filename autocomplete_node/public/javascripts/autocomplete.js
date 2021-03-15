@@ -63,7 +63,7 @@ const Autocomplete = {
 
     if (this.bestMatchIndex !== null && this.matches.length !== 0) {
       let selected = this.matches[this.bestMatchIndex];
-      this.overlay.textContent = selected.name;
+      this.overlay.textContent = this.generateOverlayContent(this.input.value, selected);
     } else {
       this.overlay.textContent = '';
     }
@@ -83,6 +83,11 @@ const Autocomplete = {
     this.bestMatchIndex = null;
     
     this.draw();
+  },
+
+  generateOverlayContent: function(value, match) {
+    let end = match.name.substr(value.length);
+    return value + end;
   },
 
   init: function() {
