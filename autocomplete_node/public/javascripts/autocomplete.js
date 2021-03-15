@@ -31,6 +31,7 @@ const Autocomplete = {
       this.fetchMatches(value, matches => {
         this.visible = true;
         this.matches = matches;
+        this.bestMatchIndex = 0;
         this.draw();
       });
     } else {
@@ -57,7 +58,14 @@ const Autocomplete = {
 
     if (!this.visible) {
       this.overlay.textContent = '';
-      return;
+      return; 
+    }
+
+    if (this.bestMatchIndex !== null && this.matches.length !== 0) {
+      let selected = this.matches[this.bestMatchIndex];
+      this.overlay.textContent = selected.name;
+    } else {
+      this.overlay.textContent = '';
     }
 
     this.matches.forEach(match => {
@@ -69,6 +77,14 @@ const Autocomplete = {
     });
   },
 
+  reset: function() {
+    this.visible = false;
+    this.matches = [];
+    this.bestMatchIndex = null;
+    
+    this.draw();
+  },
+
   init: function() {
     this.input = document.querySelector('input');
     this.url = '/countries?matching=';
@@ -78,6 +94,7 @@ const Autocomplete = {
 
     this.visible = false;
     this.matches = [];
+    this.bestMatchIndex = null;
 
     this.wrapInput();
     this.createUI();
