@@ -38,6 +38,37 @@ const Autocomplete = {
     }
   },
 
+  fetchMatches: function(query, callback) {
+    let request = new XMLHttpRequest();
+
+    request.addEventListener('load', () => {
+      callback(request.response);
+    });
+
+    request.open('GET', `${this.url}${encodeURIComponent(query)}`);
+    request.responseType = 'json';
+    request.send();
+  },
+
+  draw: function() {
+    while (this.listUI.lastChild) {
+      this.listUI.removeChild(this.listUI.lastChild);
+    }
+
+    if (!this.visible) {
+      this.overlay.textContent = '';
+      return;
+    }
+
+    this.matches.forEach(match => {
+      let li = document.createElement('li');
+      li.classList.add('autocomplete-ui-choice');
+
+      li.textContent = match.name;
+      this.listUI.appendChild(li);
+    });
+  },
+
   init: function() {
     this.input = document.querySelector('input');
     this.url = '/countries?matching=';
