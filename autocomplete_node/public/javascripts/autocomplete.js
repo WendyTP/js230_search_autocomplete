@@ -79,7 +79,7 @@ const Autocomplete = {
         this.input.value = match.name;
       }
 
-      
+
       li.textContent = match.name;
       this.listUI.appendChild(li);
     });
@@ -115,6 +115,14 @@ const Autocomplete = {
         }
         this.bestMatchIndex = null;
         this.draw();
+        break;
+      case 'Tab':
+        
+        if (this.bestMatchIndex !== null || this.matches.length !== 0) {
+          event.preventDefault();
+          this.input.value = this.matches[this.bestMatchIndex].name;
+        }
+        this.reset();
         break;
     }
   },
