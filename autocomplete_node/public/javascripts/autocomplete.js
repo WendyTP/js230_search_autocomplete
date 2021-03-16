@@ -23,6 +23,7 @@ const Autocomplete = {
   bindEvents: function() {
     this.input.addEventListener('input', this.valueChanged.bind(this));
     this.input.addEventListener('keydown', this.handleKeydown.bind(this));
+    this.listUI.addEventListener('mousedown', this.handleMousedown.bind(this));
   },
 
   valueChanged: function() {
@@ -133,6 +134,12 @@ const Autocomplete = {
         this.reset();
 
     }
+  },
+
+  handleMousedown: function(event) {
+      let element = event.target;
+      this.input.value = element.textContent;
+      this.reset();
   },
 
   generateOverlayContent: function(value, match) {
